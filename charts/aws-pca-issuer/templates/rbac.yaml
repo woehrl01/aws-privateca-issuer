@@ -120,9 +120,16 @@ rules:
       - update
 ---
 apiVersion: rbac.authorization.k8s.io/v1
+{{- if .Values.restrictToNamespace }}
+kind: RoleBinding
+{{- else }}
 kind: ClusterRoleBinding
+{{- end }}
 metadata:
   name: {{ include "aws-privateca-issuer.fullname" . }}
+{{- if .Values.restrictToNamespace }}
+  namespace: {{ .Values.restrictToNamespace }}
+{{- end }}
   labels:
     {{- include "aws-privateca-issuer.labels" . | nindent 4 }}
 roleRef:
@@ -157,9 +164,16 @@ rules:
 # bind the approver ServiceAccount to approve all awspca.cert-manager.io
 # CertificateRequests
 apiVersion: rbac.authorization.k8s.io/v1
+{{- if .Values.restrictToNamespace }}
+kind: RoleBinding
+{{- else }}
 kind: ClusterRoleBinding
+{{- end }}
 metadata:
   name: {{.Values.approverRole.serviceAccountName}}-controller-approve:awspca-cert-manager-io
+{{- if .Values.restrictToNamespace }}
+  namespace: {{ .Values.restrictToNamespace }}
+{{- end }}
   labels:
     {{- include "aws-privateca-issuer.labels" . | nindent 4 }}
 roleRef:

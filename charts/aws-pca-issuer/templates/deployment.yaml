@@ -42,7 +42,10 @@ spec:
           args:
             - --leader-elect
             {{- if .Values.disableApprovedCheck }}
-            - -disable-approved-check
+            - --disable-approved-check
+            {{- end }}
+            {{- if .Values.restrictToNamespace }}
+            - --restrict-to-namespace={{ .Values.restrictToNamespace }}
             {{- end }}
           ports:
             - containerPort: 8080

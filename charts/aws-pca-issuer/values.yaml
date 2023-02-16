@@ -52,6 +52,11 @@ securityContext:
 
 resources: {}
 
+# If you want to restrict the operator to a specific namespace, set this to the
+# namespace name. If you want to restrict the
+# operator to all namespaces, set this to the empty string.
+restrictToNamespace: ""
+
 autoscaling:
   enabled: false
   minReplicas: 1
